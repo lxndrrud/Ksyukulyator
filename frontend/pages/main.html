@@ -1,0 +1,23 @@
+    
+<script src="./alpine.min.js" defer></script>
+<link rel="stylesheet" href="./main.css">
+<div id="root" x-data="{ open: false }">
+    <h1>Ксюкулятор</h1>
+
+    <div class="row">
+        <table id="productsTable">
+            <th>
+                <td>Название продукта</td>
+                <td>Количество углеводов, г / 100 г продукта</td>
+            </th>
+        </table>
+        <div id="controlButtons">
+            <button @click="open = true">Обновить список</button>
+            <button @click="open = true">Добавить продукт</button>
+            <button @click="open = true">Удалить продукт</button>
+        </div>
+    </div>
+    
+</div>
+
+
