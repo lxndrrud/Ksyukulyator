@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"net/http/httptest"
 
+	"github.com/jchv/go-webview-selector"
 	"github.com/markbates/pkger"
-	"github.com/webview/webview"
 )
 
 type pkgerServer struct{}
