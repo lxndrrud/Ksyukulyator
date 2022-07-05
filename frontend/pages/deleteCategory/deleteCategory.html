@@ -1,0 +1,30 @@
+<script src="../../alpine.min.js" defer></script>
+<script src="../../jquery.min.js" defer></script>
+<script src="../../common.js" ></script>
+
+
+<div id="root">
+    <select id="productCategory">
+
+    </select>
+    <button @click="await delCategory()">Удалить категорию</button>
+    <a href="/frontend/pages/main/main.html">Отменить</a>
+    <span x-show="!!error" x-text="error" class="error"></span>
+
+</div>
+
+<script>
+    async function delCategory() {
+        try {
+            let category = parseInt($("#productCategory>option:selected").attr("categoryid"))
+            let result = await deleteCategory(category)
+            if (result) window.location.href = "/frontend/pages/main/main.html"
+        } catch(e) {
+            $("#root").append(`
+            <span>${e}</span>
+            `)
+        }
+        
+    }
+    parseCategories(true)
+</script>

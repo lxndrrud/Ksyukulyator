@@ -1,0 +1,53 @@
+<script src="../../alpine.min.js" defer></script>
+<script src="../../jquery.min.js" defer></script>
+<script src="../../common.js" ></script>
+
+<link rel="stylesheet" href="./addProduct.css">
+
+
+<div id="root" x-data="{ error: null }">
+    <input type="text"  id="productTitle" >
+    <input type="text"  id="productCost">
+    <select id="productCategory">
+
+    </select>
+    <button @click="await saveProduct()">Сохранить</button>
+    <!--button @click="await navigateTo('/frontend/pages/main/main.html')">Отменить</button-->
+    <a href="/frontend/pages/main/main.html">Отменить</a>
+    <span x-show="!!error" x-text="error" class="error"></span>
+</div>
+
+<script>
+    async function saveProduct() {
+        try {
+            let title = $('#productTitle').val(),
+                cost =  $('#productCost').val()
+                category = parseInt($("#productCategory>option:selected").attr("categoryid"))
+            let result = await addProduct(title, cost, category)
+            if (result) window.location.href = "/frontend/pages/main/main.html"
+        } catch (e) {
+            error = e
+        }
+        
+        //if (result) await navigateTo("/frontend/pages/main/main.html")
+    }
+
+    async function parseCategories() {
+        let categories = await loadCategories()
+        let selector = $("#productCategory")
+        selector.empty() 
+        selector.append(`
+            <option categoryid="0">
+                Без категории
+            </option>
+        `)
+        for (let category of categories) {
+            selector.append(`
+            <option categoryid=${category.category_id}>
+                ${category.category_title}
+            </option>
+            `)
+        }
+    } 
+    parseCategories()
+</script>

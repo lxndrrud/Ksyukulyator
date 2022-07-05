@@ -2,11 +2,15 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"net/http/httptest"
 
-	"github.com/jchv/go-webview-selector"
+	"github.com/jmoiron/sqlx"
+	"github.com/lxndrrud/webviewKsyukulyator/storage"
+	window_controllers "github.com/lxndrrud/webviewKsyukulyator/windowControllers"
 	"github.com/markbates/pkger"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 type pkgerServer struct{}
@@ -23,16 +27,17 @@ func httpServer() *httptest.Server {
 
 func main() {
 	_ = pkger.Include("/frontend")
-
 	srv := httpServer()
 	defer srv.Close()
-
-	url := fmt.Sprintf("%s/frontend/pages/main.html", srv.URL)
-	fmt.Println(srv.URL)
-	w := webview.New(false)
-	defer w.Destroy()
-	w.SetTitle("Ксюкулятор")
-	w.SetSize(480, 320, webview.HintNone)
-	w.Navigate(url)
-	w.Run()
+	db, err := sqlx.Open("sqlite3", "./app.db")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer db.Close()
+	err = storage.InitStorage(db)
+	if err == nil {
+		window_controllers.NewWindowController(db).SetupWindow(srv)
+	} else {
+		fmt.Println(err)
+	}
 }
