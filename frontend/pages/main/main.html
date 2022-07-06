@@ -4,11 +4,11 @@
 <script src="../../common.js" ></script>
 
 <link rel="stylesheet" href="./main.css">
-<div id="root" x-data="{ error: null }">
+<div id="root" x-data="{ error: null, gramms: 0 }">
     <h1>Ксюкулятор</h1>
     <nav>
         <a href="/frontend/pages/main/main.html" class="link" >Калькулятор</a>
-        <a href="/frontend/pages/addProduct/addProduct.html" class="link" >Добавить</a>
+        <a href="/frontend/pages/categories/categories.html" class="link">Категории</a>
     </nav>
     <span x-show="!!error" x-text="error" class="error"></span>
 
@@ -34,39 +34,38 @@
         </div>
         <div id="controlButtons">
             <h3>Контроль продуктов</h3>
+            <input type="number" id="grammsInput" x-model="gramms">
             <button @click="await parseProducts()" class="button">Обновить список</button>
             <a href="/frontend/pages/addProduct/addProduct.html/" class="button">
                 Добавить продукт
             </a>
             <!--button @click="await delProduct(1)" class="button">Удалить продукт</button-->
-            <a href="/frontend/pages/addCategory/addCategory.html" class="button">
-                Добавить категорию
-            </a>
-            <a href="/frontend/pages/deleteCategory/deleteCategory.html" class="button">
-                Удалить категорию
-            </a>
+            
 
 
             <!--a href="/frontend/pages/addProduct/addProduct.html" class="button">Добавить продукт</a-->
         </div>
     </div>
     <div class="row">
-        <div class="overflow_container">
-            <table id="amountsTable">
-                <thead>
-                    <tr>
-                        <td>Название продукта</td>
-                        <td>Количество продукта, г</td>
-                        <td>Контроль</td>
-                    </tr>
-                </thead>
-                <tbody>
-    
-                </tbody>
-                
-            </table>
+        <div class="column">
+            <h3>Продукты на расчёт</h3>
+
+            <div class="overflow_container">
+                <table id="amountsTable">
+                    <thead>
+                        <tr>
+                            <td>Название продукта</td>
+                            <td>Количество продукта, г</td>
+                            <td>Контроль</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+        
+                    </tbody>
+                    
+                </table>
+            </div>
         </div>
-       
     </div>
     
 </div>
@@ -75,12 +74,14 @@
     async function delProduct(idProduct) {
         try {
             let result = await deleteProduct(idProduct)
-            await parseProducts()
+            if (result) await parseProducts()
         }
         catch (e) {
             error = e
         }
         
+    }
+    async function calculate(idProduct, gramms) {
     }
     parseProducts()
 </script>

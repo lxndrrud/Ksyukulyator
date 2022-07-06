@@ -10,21 +10,18 @@ type CalculationController struct {
 }
 
 func NewCalculationController() *CalculationController {
-	calc := &CalculationController{
+	return &CalculationController{
 		products: []dto.ProductAmount{},
 		sum:      0,
 	}
-	calc.GetProducts()
-	calc.CalculateSum()
-	return calc
 }
 
-func (c CalculationController) GetProducts() []dto.ProductAmount {
+func (c *CalculationController) GetProducts() []dto.ProductAmount {
 	return c.products
 }
 
 func (c *CalculationController) CalculateSum() float32 {
-	c.ClearSum()
+	c.sum = 0
 	for _, value := range c.products {
 		c.sum += value.CalculateAmount()
 	}
@@ -36,6 +33,18 @@ func (c *CalculationController) AddProductAmount(productAmount dto.ProductAmount
 	return c.CalculateSum()
 }
 
-func (c *CalculationController) ClearSum() {
-	c.sum = 0
+func (c *CalculationController) DeleteProductAmount(idProduct int64) float32 {
+	productsResult := make([]dto.ProductAmount, 0)
+	for _, product := range c.products {
+		if product.Id != idProduct {
+			productsResult = append(productsResult, product)
+		}
+	}
+	c.products = productsResult
+	return c.CalculateSum()
+}
+
+func (c *CalculationController) ClearProducts() float32 {
+	c.products = []dto.ProductAmount{}
+	return 0
 }

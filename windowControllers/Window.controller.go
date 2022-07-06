@@ -8,6 +8,7 @@ import (
 
 	"github.com/jchv/go-webview-selector"
 	"github.com/jmoiron/sqlx"
+	"github.com/lxndrrud/webviewKsyukulyator/controllers"
 	"github.com/lxndrrud/webviewKsyukulyator/dto"
 	"github.com/lxndrrud/webviewKsyukulyator/storage"
 )
@@ -16,6 +17,7 @@ func NewWindowController(db *sqlx.DB) *WindowController {
 	return &WindowController{
 		productStorage:  storage.NewProductModel(db),
 		categoryStorage: storage.NewCategoryModel(db),
+		calcController:  controllers.NewCalculationController(),
 	}
 }
 
@@ -23,6 +25,7 @@ type WindowController struct {
 	Window          webview.WebView
 	productStorage  *storage.ProductModel
 	categoryStorage *storage.CategoryModel
+	calcController  *controllers.CalculationController
 	server          *httptest.Server
 }
 
@@ -43,8 +46,8 @@ func (c *WindowController) SetupWindow(srv *httptest.Server) {
 
 	c.Window.SetTitle("Ксюкулятор")
 	c.Window.SetSize(800, 600, webview.HintNone)
-	c.Window.Navigate(url)
 	c.LoadBindings()
+	c.Window.Navigate(url)
 	c.Window.Run()
 }
 
@@ -119,7 +122,6 @@ func (c *WindowController) AddCategory(title string) bool {
 }
 
 func (c *WindowController) DeleteCategory(idCategory int64) bool {
-	fmt.Println("Удаление категории")
 	err := c.categoryStorage.DeleteCategory(idCategory)
 	if err != nil {
 		fmt.Println(err)

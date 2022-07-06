@@ -1,6 +1,8 @@
 package storage
 
 import (
+	"fmt"
+
 	"github.com/jmoiron/sqlx"
 	"github.com/lxndrrud/webviewKsyukulyator/dto"
 )
@@ -35,6 +37,7 @@ func (s *ProductModel) GetAll() ([]dto.ProductFull, error) {
 }
 
 func (s *ProductModel) AddProduct(product dto.Product) error {
+	fmt.Println(product)
 	tx, err := s.db.Begin()
 	if err != nil {
 		return err

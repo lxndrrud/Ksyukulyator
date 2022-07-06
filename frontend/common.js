@@ -14,6 +14,7 @@ async function parseProducts() {
             <td>${product.product_cost}</td>
             <td>${product.category_title}</td>
             <td class="column">
+                <button @click="await calculate(${product.product_id}, gramms)">Посчитать</button>
                 <button productId=${product.product_id}>Изменить</button>
                 <button productId=${product.product_id} @click="await delProduct(${product.product_id})">
                     Удалить
@@ -24,11 +25,11 @@ async function parseProducts() {
     }
 }
 
-async function parseCategories(notForDelete=false) {
+async function parseCategories(forDelete=false) {
     let categories = await loadCategories()
     let selector = $("#productCategory")
     selector.empty() 
-    if (notForDelete) {
+    if (!forDelete) {
         selector.append(`
         <option categoryid="0">
             Без категории
@@ -43,3 +44,4 @@ async function parseCategories(notForDelete=false) {
         `)
     }
 } 
+

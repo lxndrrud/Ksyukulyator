@@ -23,12 +23,3 @@ type ProductFull struct {
 func (p Product) GetString() (string, string) {
 	return p.Title, strconv.FormatFloat(float64(p.Cost), 'f', 2, 32)
 }
-
-type ProductAmount struct {
-	Product Product
-	Amount  float32
-}
-
-func (p ProductAmount) CalculateAmount() float32 {
-	return p.Product.Cost / 12 * p.Amount / 100
-}
