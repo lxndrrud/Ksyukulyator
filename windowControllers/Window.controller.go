@@ -36,6 +36,9 @@ func (c *WindowController) LoadBindings() {
 	c.Window.Bind("loadCategories", c.LoadCategories)
 	c.Window.Bind("addCategory", c.AddCategory)
 	c.Window.Bind("deleteCategory", c.DeleteCategory)
+	c.Window.Bind("addAmountToCalc", c.AddProductToCalculation)
+	c.Window.Bind("deleteAmountFromCalc", c.DeleteProductFromCalculation)
+	c.Window.Bind("getAmounts", c.GetProductsAmounts)
 }
 
 func (c *WindowController) SetupWindow(srv *httptest.Server) {
@@ -129,4 +132,26 @@ func (c *WindowController) DeleteCategory(idCategory int64) bool {
 		return false
 	}
 	return true
+}
+
+func (c *WindowController) AddProductToCalculation(idProduct int64, amount float32) float32 {
+	product, err := c.productStorage.GetById(idProduct)
+	if err != nil {
+		fmt.Println(err)
+		c.SetError("Не удалось расчитать стоимость продукта: " + err.Error())
+		return 0
+	}
+	return c.calcController.AddProductAmount(dto.ProductAmount{
+		Product: product.Product,
+		Amount:  amount,
+	})
+}
+
+func (c *WindowController) DeleteProductFromCalculation(idProduct int64) float32 {
+	return c.calcController.DeleteProductAmount(idProduct)
+}
+
+func (c *WindowController) GetProductsAmounts() []dto.ProductAmount {
+	products := c.calcController.GetProducts()
+	return products
 }

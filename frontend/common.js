@@ -45,3 +45,21 @@ async function parseCategories(forDelete=false) {
     }
 } 
 
+async function parseProductsAmounts() {
+    let productsAmounts = await getAmounts()
+    let table = $("#amountsTable").find("tbody")
+    table.empty()
+    for (let amount of productsAmounts) {
+        table.append(`
+        <tr>
+            <td>${amount.product_title}</td>
+            <td>${amount.product_amount}</td>
+            <td>${amount.product_amount_cost}</td>
+            <td>
+                <button @click="await removeFromCalc(${amount.product_id})">Убрать из расчёта</button>
+            </td>
+        </tr>
+        `)
+    }
+}
+

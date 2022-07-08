@@ -22,14 +22,23 @@ func (c *CalculationController) GetProducts() []dto.ProductAmount {
 
 func (c *CalculationController) CalculateSum() float32 {
 	c.sum = 0
-	for _, value := range c.products {
-		c.sum += value.CalculateAmount()
+	for index := range c.products {
+		c.sum += c.products[index].CalculateAmount()
 	}
 	return c.sum
 }
 
 func (c *CalculationController) AddProductAmount(productAmount dto.ProductAmount) float32 {
-	c.products = append(c.products, productAmount)
+	isFound := false
+	for index, value := range c.products {
+		if value.Id == productAmount.Id {
+			c.products[index].Amount += productAmount.Amount
+			isFound = true
+		}
+	}
+	if !isFound {
+		c.products = append(c.products, productAmount)
+	}
 	return c.CalculateSum()
 }
 
@@ -45,6 +54,7 @@ func (c *CalculationController) DeleteProductAmount(idProduct int64) float32 {
 }
 
 func (c *CalculationController) ClearProducts() float32 {
+	c.sum = 0
 	c.products = []dto.ProductAmount{}
 	return 0
 }

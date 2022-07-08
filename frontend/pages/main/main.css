@@ -40,6 +40,19 @@ nav {
     margin-left: 100px;
 }
 
+#calculateControllers {
+    display: flex;
+    flex-direction: column;
+    justify-self: flex-end;
+    margin-left: 100px;
+}
+
+#grammsInput {
+    font-size: 18px;
+    padding-top: 5px;
+    padding-bottom: 2px;
+}
+
 .row {
     display: flex;
     flex-direction: row;

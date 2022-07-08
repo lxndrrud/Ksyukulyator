@@ -1,3 +1,8 @@
+#root {
+    display: flex;
+    flex-direction: column;
+}
+
 #productCategory {
     min-width: 200px;
 }

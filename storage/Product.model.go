@@ -23,10 +23,10 @@ func (s *ProductModel) GetAll() ([]dto.ProductFull, error) {
 	err := s.db.Select(&products, `
 		SELECT 
 			p.*, 
-			CASE 
-				WHEN c.category_title IS NULL THEN "Без категории"  
+			CASE
+				WHEN c.category_title IS NULL THEN "Без категории"
 				WHEN c.category_title IS NOT NULL THEN c.category_title
-			END as category_title 
+			END as category_title
 		FROM products p
 		LEFT JOIN categories AS c ON c.category_id = p.product_id_category
 	`)
@@ -34,6 +34,25 @@ func (s *ProductModel) GetAll() ([]dto.ProductFull, error) {
 		return []dto.ProductFull{}, nil
 	}
 	return products, nil
+}
+
+func (s *ProductModel) GetById(idProduct int64) (dto.ProductFull, error) {
+	product := dto.ProductFull{}
+
+	err := s.db.Get(&product, `
+		SELECT 
+			p.*, 
+			CASE
+				WHEN c.category_title IS NULL THEN "Без категории"
+				WHEN c.category_title IS NOT NULL THEN c.category_title
+			END as category_title
+		FROM products p
+		LEFT JOIN categories AS c ON c.category_id = p.product_id_category
+	`)
+	if err != nil {
+		return dto.ProductFull{}, nil
+	}
+	return product, nil
 }
 
 func (s *ProductModel) AddProduct(product dto.Product) error {
