@@ -65,12 +65,10 @@ func (c *WindowController) LoadProducts() []dto.ProductFull {
 		c.SetError("Не удалось загрузить продукты: " + err.Error())
 		return []dto.ProductFull{}
 	}
-	fmt.Println(products)
 	return products
 }
 
 func (c *WindowController) AddProduct(title, cost string, categoryId int64) bool {
-	fmt.Println(title, cost, categoryId)
 	parsedCost, _ := strconv.ParseFloat(cost, 32)
 	idCategory := sql.NullInt64{}
 	if categoryId != 0 {
@@ -107,7 +105,6 @@ func (c *WindowController) LoadCategories() []dto.Category {
 		c.SetError("Не удалось загрузить категории: " + err.Error())
 		return []dto.Category{}
 	}
-	fmt.Println(categories)
 	return categories
 
 }
@@ -134,7 +131,7 @@ func (c *WindowController) DeleteCategory(idCategory int64) bool {
 	return true
 }
 
-func (c *WindowController) AddProductToCalculation(idProduct int64, amount float32) float32 {
+func (c *WindowController) AddProductToCalculation(idProduct int64, amount float32, amountCost float32) float32 {
 	product, err := c.productStorage.GetById(idProduct)
 	if err != nil {
 		fmt.Println(err)
@@ -142,8 +139,9 @@ func (c *WindowController) AddProductToCalculation(idProduct int64, amount float
 		return 0
 	}
 	return c.calcController.AddProductAmount(dto.ProductAmount{
-		Product: product.Product,
-		Amount:  amount,
+		Product:    product.Product,
+		Amount:     amount,
+		AmountCost: amountCost,
 	})
 }
 

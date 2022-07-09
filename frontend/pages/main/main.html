@@ -4,7 +4,7 @@
 <script src="../../common.js" ></script>
 
 <link rel="stylesheet" href="./main.css">
-<div id="root" x-data="{ error: null, gramms: 0}">
+<div id="root" x-data="{ error: null, amount: 0, amountCost: 0}">
     <h1>Ксюкулятор</h1>
     <nav>
         <a href="/frontend/pages/main/main.html" class="link" >Калькулятор</a>
@@ -72,8 +72,14 @@
         </div>
         <div id="calculateControllers">
             <h3>Контроль расчёта продуктов</h3>
-            <label for="#grammsInput">Количество продукта, г</label>
-            <input type="number" id="grammsInput" x-model="gramms">
+            <span>Выбрать тип расчёта</span>
+            <label for="#amount">Количество продукта, г</label>
+            <input type="number" id="amount" x-model="amount" disabled>
+            <button @click="selectCalcType('calcAmountCost')">Расчитать стоимость в хлебных единицах</button>
+            <label for="#amountCost">Количество хлебных единиц, х.е.</label>
+            <input type="number" id="amountCost" x-model="amountCost">
+            <button @click="selectCalcType('calcAmount')">Рассчитать количество продукта</button>
+
         </div>
     </div>
     
@@ -90,8 +96,9 @@
         }
         
     }
-    async function calculate(idProduct, gramms) {
-        let summ = await addAmountToCalc(parseInt(idProduct), parseFloat(gramms))
+    async function calculate(idProduct) {
+        let summ = await addAmountToCalc(parseInt(idProduct), 
+            parseFloat($("#amount").val()), parseFloat( $("#amountCost").val()))
         await parseProductsAmounts()
         $("#sum").text(summ)
     }
@@ -101,8 +108,22 @@
         await parseProductsAmounts()
         $("#sum").text(summ)
     }
-   
+
+    function selectCalcType(stringValue) {
+        if (stringValue === 'calcAmount') {
+            amount = 0
+            $("#amount").val(0)
+            $("#amountCost").prop("disabled", false)
+            $("#amount").prop("disabled", true)
+        } else if (stringValue === 'calcAmountCost') {
+            amountCost = 0
+            $("#amountCost").val(0)
+            $("#amountCost").prop("disabled", true)
+            $("#amount").prop("disabled", false)
+        }
+    }
     parseProducts()
+    parseProductsAmounts()
 </script>
 
 

@@ -23,17 +23,20 @@ func (c *CalculationController) GetProducts() []dto.ProductAmount {
 func (c *CalculationController) CalculateSum() float32 {
 	c.sum = 0
 	for index := range c.products {
-		c.sum += c.products[index].CalculateAmount()
+		c.sum += c.products[index].CalculateAmountCost()
 	}
 	return c.sum
 }
 
 func (c *CalculationController) AddProductAmount(productAmount dto.ProductAmount) float32 {
+	ptrProduct := &productAmount
+	ptrProduct.CalculateAmount()
 	isFound := false
 	for index, value := range c.products {
-		if value.Id == productAmount.Id {
-			c.products[index].Amount += productAmount.Amount
+		if value.Id == ptrProduct.Id {
+			c.products[index].Amount += ptrProduct.Amount
 			isFound = true
+			break
 		}
 	}
 	if !isFound {

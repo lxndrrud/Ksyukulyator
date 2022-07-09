@@ -14,7 +14,7 @@ async function parseProducts() {
             <td>${product.product_cost}</td>
             <td>${product.category_title}</td>
             <td class="column">
-                <button @click="await calculate(${product.product_id}, gramms)">Посчитать</button>
+                <button @click="await calculate(${product.product_id})">Посчитать</button>
                 <button productId=${product.product_id}>Изменить</button>
                 <button productId=${product.product_id} @click="await delProduct(${product.product_id})">
                     Удалить
