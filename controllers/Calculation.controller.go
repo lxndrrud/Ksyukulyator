@@ -16,8 +16,11 @@ func NewCalculationController() *CalculationController {
 	}
 }
 
-func (c *CalculationController) GetProducts() []dto.ProductAmount {
-	return c.products
+func (c *CalculationController) GetProducts() dto.ProductAmountTable {
+	return dto.ProductAmountTable{
+		Products: c.products,
+		Sum:      c.sum,
+	}
 }
 
 func (c *CalculationController) CalculateSum() float32 {
@@ -28,24 +31,17 @@ func (c *CalculationController) CalculateSum() float32 {
 	return c.sum
 }
 
-func (c *CalculationController) AddProductAmount(productAmount dto.ProductAmount) float32 {
-	ptrProduct := &productAmount
-	ptrProduct.CalculateAmount()
-	isFound := false
-	for index, value := range c.products {
-		if value.Id == ptrProduct.Id {
-			c.products[index].Amount += ptrProduct.Amount
-			isFound = true
-			break
-		}
+func (c *CalculationController) AddProductAmount(productAmount *dto.ProductAmount) dto.ProductAmountTable {
+	productAmount.CalculateAmount()
+
+	c.products = append(c.products, *productAmount)
+	return dto.ProductAmountTable{
+		Products: c.products,
+		Sum:      c.CalculateSum(),
 	}
-	if !isFound {
-		c.products = append(c.products, productAmount)
-	}
-	return c.CalculateSum()
 }
 
-func (c *CalculationController) DeleteProductAmount(idProduct int64) float32 {
+func (c *CalculationController) DeleteProductAmount(idProduct int64) dto.ProductAmountTable {
 	productsResult := make([]dto.ProductAmount, 0)
 	for _, product := range c.products {
 		if product.Id != idProduct {
@@ -53,11 +49,17 @@ func (c *CalculationController) DeleteProductAmount(idProduct int64) float32 {
 		}
 	}
 	c.products = productsResult
-	return c.CalculateSum()
+	return dto.ProductAmountTable{
+		Products: c.products,
+		Sum:      c.CalculateSum(),
+	}
 }
 
-func (c *CalculationController) ClearProducts() float32 {
+func (c *CalculationController) ClearProducts() dto.ProductAmountTable {
 	c.sum = 0
 	c.products = []dto.ProductAmount{}
-	return 0
+	return dto.ProductAmountTable{
+		Products: c.products,
+		Sum:      c.sum,
+	}
 }

@@ -1,0 +1,22 @@
+
+#root {
+    height: max-content;
+}
+
+#content {
+    display: flex;
+    flex-direction: row;
+    height: 90vh;
+    justify-content: flex-start;
+}
+
+.overflow_container {
+    height: 90vh;
+    width: 75%;
+}
+
+a.button {
+    height: fit-content;
+    margin-left: 10px;
+    margin-right: 10px;
+}

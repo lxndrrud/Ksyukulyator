@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+    <head>  
+        <script src="../../react.js" ></script>
+        <script src="../../reactDom.js"></script>
+        <script src="../../babel.js"></script>
+        <link rel="stylesheet" href="../layout.css">
+        <link rel="stylesheet" href="./categories.css">
+        <!--script src="../../alpine.min.js" defer></script>
+        <script src="../../jquery.min.js" defer></script>
+        <script src="../../common.js" ></script-->
+    </head>
+    <body>
+        <div id="root">
+            <!--h1>Ксюкулятор</h1>
+            <nav>
+                <a href="/frontend/pages/main/main.html" class="link" >Калькулятор</a>
+                <a href="/frontend/pages/categories/categories.html" class="link">Категории</a>
+            </nav>
+            <div class="row" >
+                <table id="productCategoryTable">
+                    <thead>
+                        <tr>
+                            <td>Название категории</td>
+                            <td>Контроль</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+            
+                    </tbody>
+                </table>
+                <a href="/frontend/pages/addCategory/addCategory.html" class="button">
+                    Добавить категорию
+                </a>
+            </div>
+            <span x-show="!!error" x-text="error" class="error"></span-->
+        
+        </div>
+        
+        <script type="text/babel" src="./categories.jsx">
+            
+
+            
+            /*
+            async function parseCategoriesTable() {
+                let categories = await loadCategories()
+                let table = $("#productCategoryTable").find("tbody")
+                table.empty() 
+                for (let category of categories) {
+                    table.append(`
+                    <tr>
+                        <td>${category.category_title}</td>
+                        <td class="row">
+                            <button>Изменить</button>
+                            <button @click="await delCategory(${category.category_id})">Удалить</button>
+                        </td>
+                    </tr>
+                    `)
+                }
+            } 
+        
+            async function delCategory(idCategory) {
+                try {
+                    let result = await deleteCategory(idCategory)
+                    if (result) await parseCategoriesTable()
+                } catch (e) {
+                    error = e
+                }
+            }
+           
+            parseCategoriesTable()
+            */
+        </script>
+    </body>
+</html>
+
+
+
+
+

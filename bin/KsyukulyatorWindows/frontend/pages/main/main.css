@@ -1,0 +1,9 @@
+#root {
+    height: max-content;
+}
+
+#content {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 2fr 1fr;
+}

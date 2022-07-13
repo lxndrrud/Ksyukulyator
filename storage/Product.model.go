@@ -1,8 +1,6 @@
 package storage
 
 import (
-	"fmt"
-
 	"github.com/jmoiron/sqlx"
 	"github.com/lxndrrud/webviewKsyukulyator/dto"
 )
@@ -48,15 +46,38 @@ func (s *ProductModel) GetById(idProduct int64) (dto.ProductFull, error) {
 			END as category_title
 		FROM products p
 		LEFT JOIN categories AS c ON c.category_id = p.product_id_category
-	`)
+		WHERE p.product_id = $1
+	`, idProduct)
 	if err != nil {
 		return dto.ProductFull{}, nil
 	}
 	return product, nil
 }
 
+func (s *ProductModel) GetByCategoryId(idCategory int64) ([]dto.ProductFull, error) {
+	products := make([]dto.ProductFull, 0)
+
+	err := s.db.Select(&products, `
+		SELECT 
+			p.*, 
+			CASE
+				WHEN c.category_title IS NULL THEN "Без категории"
+				WHEN c.category_title IS NOT NULL THEN c.category_title
+			END as category_title
+		FROM products p
+		LEFT JOIN categories AS c ON c.category_id = p.product_id_category
+		WHERE ($1 AND c.category_id = $3) OR ($2 AND c.category_id IS NULL)
+	`,
+		idCategory != 0,
+		idCategory == 0,
+		idCategory)
+	if err != nil {
+		return []dto.ProductFull{}, err
+	}
+	return products, nil
+}
+
 func (s *ProductModel) AddProduct(product dto.Product) error {
-	fmt.Println(product)
 	tx, err := s.db.Begin()
 	if err != nil {
 		return err

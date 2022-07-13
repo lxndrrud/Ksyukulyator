@@ -1,0 +1,25 @@
+{
+  "name": "webviewksyukulator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel frontend/pages -d frontend/lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lxndrrud/webviewKsyukulyator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lxndrrud/webviewKsyukulyator/issues"
+  },
+  "homepage": "https://github.com/lxndrrud/webviewKsyukulyator#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.18.6",
+    "@babel/core": "^7.18.6",
+    "@babel/preset-react": "^7.18.6"
+  }
+}

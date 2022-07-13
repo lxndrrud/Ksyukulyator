@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	"net/http/httptest"
-	"strconv"
 
 	"github.com/jchv/go-webview-selector"
 	"github.com/jmoiron/sqlx"
@@ -39,6 +38,7 @@ func (c *WindowController) LoadBindings() {
 	c.Window.Bind("addAmountToCalc", c.AddProductToCalculation)
 	c.Window.Bind("deleteAmountFromCalc", c.DeleteProductFromCalculation)
 	c.Window.Bind("getAmounts", c.GetProductsAmounts)
+	c.Window.Bind("filterByCategory", c.productStorage.GetByCategoryId)
 }
 
 func (c *WindowController) SetupWindow(srv *httptest.Server) {
@@ -48,7 +48,7 @@ func (c *WindowController) SetupWindow(srv *httptest.Server) {
 	defer c.Window.Destroy()
 
 	c.Window.SetTitle("Ксюкулятор")
-	c.Window.SetSize(800, 600, webview.HintNone)
+	c.Window.SetSize(1200, 800, webview.HintNone)
 	c.LoadBindings()
 	c.Window.Navigate(url)
 	c.Window.Run()
@@ -68,8 +68,7 @@ func (c *WindowController) LoadProducts() []dto.ProductFull {
 	return products
 }
 
-func (c *WindowController) AddProduct(title, cost string, categoryId int64) bool {
-	parsedCost, _ := strconv.ParseFloat(cost, 32)
+func (c *WindowController) AddProduct(title string, cost float32, categoryId int64) bool {
 	idCategory := sql.NullInt64{}
 	if categoryId != 0 {
 		idCategory.Valid = true
@@ -77,7 +76,7 @@ func (c *WindowController) AddProduct(title, cost string, categoryId int64) bool
 	}
 	err := c.productStorage.AddProduct(dto.Product{
 		Title:      title,
-		Cost:       float32(parsedCost),
+		Cost:       cost,
 		IdCategory: idCategory,
 	})
 	if err != nil {
@@ -131,25 +130,35 @@ func (c *WindowController) DeleteCategory(idCategory int64) bool {
 	return true
 }
 
-func (c *WindowController) AddProductToCalculation(idProduct int64, amount float32, amountCost float32) float32 {
+func (c *WindowController) AddProductToCalculation(idProduct int64, amount float32, amountCost float32) dto.ProductAmountTable {
 	product, err := c.productStorage.GetById(idProduct)
 	if err != nil {
 		fmt.Println(err)
 		c.SetError("Не удалось расчитать стоимость продукта: " + err.Error())
-		return 0
+		return dto.ProductAmountTable{}
 	}
-	return c.calcController.AddProductAmount(dto.ProductAmount{
+	return c.calcController.AddProductAmount(&dto.ProductAmount{
 		Product:    product.Product,
 		Amount:     amount,
 		AmountCost: amountCost,
 	})
 }
 
-func (c *WindowController) DeleteProductFromCalculation(idProduct int64) float32 {
+func (c *WindowController) DeleteProductFromCalculation(idProduct int64) dto.ProductAmountTable {
 	return c.calcController.DeleteProductAmount(idProduct)
 }
 
-func (c *WindowController) GetProductsAmounts() []dto.ProductAmount {
-	products := c.calcController.GetProducts()
+func (c *WindowController) GetProductsAmounts() dto.ProductAmountTable {
+	return c.calcController.GetProducts()
+}
+
+func (c *WindowController) FilterByCategory(idCategory int64) []dto.ProductFull {
+	fmt.Println("Фильтр по категориям!")
+	products, err := c.productStorage.GetByCategoryId(idCategory)
+	if err != nil {
+		fmt.Println(err)
+		c.SetError("Не удалось расчитать стоимость продукта: " + err.Error())
+		return []dto.ProductFull{}
+	}
 	return products
 }

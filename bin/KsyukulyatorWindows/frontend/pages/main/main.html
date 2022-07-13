@@ -1,0 +1,149 @@
+<html>
+    <head>
+        <script src="../../alpine.min.js" defer></script>
+        <script src="../../jquery.min.js" defer></script>
+        <link rel="stylesheet" href="../layout.css">
+        <link rel="stylesheet" href="./main.css">
+
+    </head>
+    <body>
+        <div id="root" >
+            <h1 class="ksyu">Ксюкулятор</h1>
+            <nav>
+                <a href="/frontend/pages/main/main.html" class="link" >Калькулятор</a>
+                <a href="/frontend/pages/categories/categories.html" class="link">Категории</a>
+            </nav>
+            <span id="error" class="error"></span>
+
+            <div id="content">
+                <div class="column">
+                    <h3>Продукты</h3>
+                    <div class="overflow_container">
+                        <table id="productsTable">
+                            <thead>
+                                <tr>
+                                    <td>Название продукта</td>
+                                    <td>Количество углеводов, г / 100 г продукта</td>
+                                    <td>Название категории</td>
+                                    <td>Контроль</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                
+                            </tbody>
+                            
+                        </table>
+                    </div>
+                </div>
+                <div class="column">
+                    <h3>Контроль продуктов</h3>
+                    <div id="controlButtons">
+                        <button @click="await parseProducts()" class="button">Обновить список</button>
+                        <a href="/frontend/pages/addProduct/addProduct.html/" class="button">
+                            Добавить продукт
+                        </a>
+                        <select id="productCategory" onchange="await filterProductsByCategory()">
+
+                        </select>
+                    </div>
+                </div>
+                <div class="column">
+                    <h3>Продукты на расчёт</h3>
+
+                    <div class="overflow_container">
+                        <table id="amountsTable">
+                            <thead>
+                                <tr>
+                                    <td>Название продукта</td>
+                                    <td>Количество продукта, г</td>
+                                    <td>Стоимость количества продукта, х.е.</td>
+                                    <td>Контроль</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                
+                            </tbody>
+                            
+                        </table>
+                    </div>
+                   
+                </div>
+                <div class="column">
+                    <h3>Контроль расчёта продуктов</h3>
+                    <div id="calculateControllers">
+                    
+                        <h4 style="margin-top: 2px; margin-bottom: 10px;" >Выбрать тип расчёта</h4>
+                        <label for="#amount">Количество продукта, г</label>
+                        <input type="number" id="amount" class="input_text" disabled value="0">
+                        <button onclick="enableAmount()" class="button">Расчитать стоимость в хлебных единицах</button>
+                        <label for="#amountCost">Количество хлебных единиц, х.е.</label>
+                        <input type="number" id="amountCost"  class="input_text" value="0">
+                        <button onclick="enableAmountCost()" class="button">Рассчитать количество продукта</button>
+
+                    </div>
+                </div>
+                <span class="ksyu">
+                    ИТОГО: <span id="sum">0</span> хлебных единиц
+                </span>
+            </div>
+            
+        
+            
+        </div>
+        <script src="../../common.js" ></script>
+
+
+        <script> 
+            async function delProduct(idProduct) {
+                try {
+                    let result = await deleteProduct(idProduct)
+                    if (result) await parseProducts()
+                }
+                catch (e) {
+                    $("#error").text(e)
+                }
+                
+            }
+            async function calculate(idProduct) {
+                let summ = await addAmountToCalc(parseInt(idProduct), 
+                    parseFloat($("#amount").val()), parseFloat( $("#amountCost").val()))
+                await parseProductsAmounts()
+            }
+
+            async function removeFromCalc(idProduct) {
+                let summ = await deleteAmountFromCalc(parseInt(idProduct))
+                await parseProductsAmounts()
+            }
+
+            async function filterProductsByCategory() {
+                let products = await filterByCategory(
+                    parseInt($("#productCategory>option:selected").attr("categoryid"))
+                )
+                await parseProducts(products)
+            }
+
+            function enableAmount() {
+                $("#amountCost").val('0')
+                $("#amountCost").prop("disabled", true)
+                $("#amount").prop("disabled", false)
+            }
+
+            function enableAmountCost() {
+                $("#amount").val('0')
+                $("#amountCost").prop("disabled", false)
+                $("#amount").prop("disabled", true)
+                
+            }
+            parseProducts()
+            parseProductsAmounts()
+            parseCategories()
+        </script>
+    </body>
+</html>
+
+
+
+
+
+
+
