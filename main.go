@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"net/http/httptest"
 
+	"path/filepath"
+
 	"github.com/jmoiron/sqlx"
 	"github.com/lxndrrud/webviewKsyukulyator/storage"
 	window_controllers "github.com/lxndrrud/webviewKsyukulyator/windowControllers"
@@ -26,7 +28,7 @@ func httpServer() *httptest.Server {
 }
 
 func main() {
-	_ = pkger.Include("/frontend")
+	_ = pkger.Include(filepath.FromSlash("/frontend"))
 	srv := httpServer()
 	defer srv.Close()
 	db, err := sqlx.Open("sqlite3", "./app.db")
