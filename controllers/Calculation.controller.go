@@ -32,6 +32,11 @@ func (c *CalculationController) CalculateSum() float32 {
 }
 
 func (c *CalculationController) AddProductAmount(productAmount *dto.ProductAmount) dto.ProductAmountTable {
+	if len(c.products) == 0 {
+		productAmount.Id = 1
+	} else {
+		productAmount.Id = c.products[len(c.products)-1].Id + 1
+	}
 	productAmount.CalculateAmount()
 
 	c.products = append(c.products, *productAmount)
@@ -41,14 +46,14 @@ func (c *CalculationController) AddProductAmount(productAmount *dto.ProductAmoun
 	}
 }
 
-func (c *CalculationController) DeleteProductAmount(idProduct int64) dto.ProductAmountTable {
+func (c *CalculationController) DeleteProductAmount(idProductAmount int64) dto.ProductAmountTable {
 	productsResult := make([]dto.ProductAmount, 0)
 	for _, product := range c.products {
-		if product.Id != idProduct {
+		if product.Id != idProductAmount {
 			productsResult = append(productsResult, product)
 		}
 	}
-	c.products = productsResult
+	(*c).products = productsResult
 	return dto.ProductAmountTable{
 		Products: c.products,
 		Sum:      c.CalculateSum(),

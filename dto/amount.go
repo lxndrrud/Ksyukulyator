@@ -1,8 +1,9 @@
 package dto
 
 type ProductAmount struct {
-	Product
-	Amount     float32 `json:"product_amount"`
+	Id         int64   `json:"product_amount_id"`
+	Product    Product `json:"product_amount_product"`
+	Amount     float32 `json:"product_amount_amount"`
 	AmountCost float32 `json:"product_amount_cost"`
 }
 
@@ -13,7 +14,7 @@ func (p *ProductAmount) CalculateAmountCost() float32 {
 
 func (p *ProductAmount) CalculateAmount() float32 {
 	if p.AmountCost != 0 && p.Product.Cost != 0 {
-		p.Amount = p.AmountCost * 12 * 100 / p.Product.Cost
+		(*p).Amount = p.AmountCost * 12 * 100 / p.Product.Cost
 		return p.Amount
 	}
 	return p.Amount

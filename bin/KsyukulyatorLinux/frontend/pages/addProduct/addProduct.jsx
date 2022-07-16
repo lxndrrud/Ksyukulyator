@@ -18,7 +18,7 @@ const AddProductPage = () => {
     }, [])
     async function saveProduct(event) {
         try {
-            let result = await addProduct(title, cost, categoryId)
+            let result = await addProduct(title, parseFloat(cost), parseInt(categoryId))
             if (result) window.location.href = "/frontend/pages/main/main.html"
         } catch (e) {
             setError(e)
@@ -37,11 +37,6 @@ const AddProductPage = () => {
                 <span>Загрузка...</span>
             : 
                 <div className="column">
-                    <h1 className="ksyu">Ксюкулятор • Добавление продукта</h1>
-                    <nav>
-                        <a href="/frontend/pages/main/main.html" className="link" >Калькулятор</a>
-                        <a href="/frontend/pages/categories/categories.html" className="link">Категории</a>
-                    </nav>
                     {
                         error 
                         ?
@@ -59,11 +54,11 @@ const AddProductPage = () => {
                         <div className="input_group">
                             <label for="#productCost">Стоимость продукта, г углеводов / 100 г продукта</label>
                             <input type="text" id="productCost" className="input_text"
-                                onChange={(e) => setCost(parseFloat(e.target.value)) } />
+                                onChange={(e) => setCost(e.target.value) } />
                         </div>
                         
-                        <select id="productCategory" onChange={(e) => setCategoryId(parseInt(e.target.value)) } >
-                            <option categoryid="0">
+                        <select id="productCategory" onChange={(e) => setCategoryId(e.target.value) } >
+                            <option value="0">
                                 Без категории
                             </option>
                             {categories && categories.map(category => (
@@ -72,7 +67,7 @@ const AddProductPage = () => {
                                 </option>
                             ))}
                         </select>
-                        <button onClick={saveProduct} className="button">Сохранить</button>
+                        <button onClick={async() => { await saveProduct() }} className="button">Сохранить</button>
                         
                         <a href="/frontend/pages/main/main.html" className="button">Отменить</a>
                     </div>

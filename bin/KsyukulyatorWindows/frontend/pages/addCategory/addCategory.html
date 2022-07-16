@@ -12,12 +12,20 @@
     <title>Ксюкулятор</title>
 </head>
 <body>
-    <div id="root"> 
-        <!--input type="text" name="categoryTitle" id="categoryTitle">
-        <button @click="await saveCategory()" >Сохранить</button>
-        <a href="/frontend/pages/main/main.html">Отменить</a>
-        <span x-show="!!error" x-text="error" class="error"></span-->
+    <div class="main">
+        <h1 class="ksyu">Ксюкулятор • Добавление категории</h1>
+        <nav>
+            <a href="/frontend/pages/main/main.html" class="link" >Калькулятор</a>
+            <a href="/frontend/pages/categories/categories.html" class="link">Категории</a>
+        </nav>
+        <div id="root"> 
+            <!--input type="text" name="categoryTitle" id="categoryTitle">
+            <button @click="await saveCategory()" >Сохранить</button>
+            <a href="/frontend/pages/main/main.html">Отменить</a>
+            <span x-show="!!error" x-text="error" class="error"></span-->
+        </div>
     </div>
+    
     <script type="text/babel" src="./addCategory.jsx"></script>
 </body>
 </html>

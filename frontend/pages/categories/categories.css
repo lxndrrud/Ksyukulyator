@@ -6,13 +6,12 @@
 #content {
     display: flex;
     flex-direction: row;
-    height: 90vh;
     justify-content: flex-start;
 }
 
 .overflow_container {
-    height: 90vh;
     width: 75%;
+    height: 70vh;
 }
 
 a.button {

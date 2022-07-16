@@ -144,8 +144,8 @@ func (c *WindowController) AddProductToCalculation(idProduct int64, amount float
 	})
 }
 
-func (c *WindowController) DeleteProductFromCalculation(idProduct int64) dto.ProductAmountTable {
-	return c.calcController.DeleteProductAmount(idProduct)
+func (c *WindowController) DeleteProductFromCalculation(idProductAmount int64) dto.ProductAmountTable {
+	return c.calcController.DeleteProductAmount(idProductAmount)
 }
 
 func (c *WindowController) GetProductsAmounts() dto.ProductAmountTable {

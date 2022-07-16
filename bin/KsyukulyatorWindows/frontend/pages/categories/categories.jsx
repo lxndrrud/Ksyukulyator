@@ -26,11 +26,6 @@ const CategoriesPage = () => {
                 ? <div>Загрузка...</div>
                 :
                 <div className="column"> 
-                    <h1 className="ksyu">Ксюкулятор • Категории</h1>
-                    <nav>
-                        <a href="/frontend/pages/main/main.html" className="link" >Калькулятор</a>
-                        <a href="/frontend/pages/categories/categories.html" className="link">Категории</a>
-                    </nav>
                     {
                         error 
                         ?

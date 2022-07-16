@@ -11,19 +11,27 @@
     <link rel="stylesheet" href="./addProduct.css">
 </head>
 <body>
-    <div id="root" >
-        <!--label for="#productTitle">Название продукта</label>
-        <input type="text"  id="productTitle">
-        <label for="#productCost">Стоимость продукта, г углеводов / 100 г продукта</label>
-        <input type="text"  id="productCost">
-        <select id="productCategory">
-    
-        </select>
-        <button @click="await saveProduct()">Сохранить</button>
-        <!--button @click="await navigateTo('/frontend/pages/main/main.html')">Отменить</button>
-        <a href="/frontend/pages/main/main.html">Отменить</a>
-        <span x-show="!!error" x-text="error" class="error"></span-->
+    <div class="main">
+        <h1 class="ksyu">Ксюкулятор • Добавление продукта</h1>
+        <nav>
+            <a href="/frontend/pages/main/main.html" class="link" >Калькулятор</a>
+            <a href="/frontend/pages/categories/categories.html" class="link">Категории</a>
+        </nav>
+        <div id="root" >
+            <!--label for="#productTitle">Название продукта</label>
+            <input type="text"  id="productTitle">
+            <label for="#productCost">Стоимость продукта, г углеводов / 100 г продукта</label>
+            <input type="text"  id="productCost">
+            <select id="productCategory">
+        
+            </select>
+            <button @click="await saveProduct()">Сохранить</button>
+            <!--button @click="await navigateTo('/frontend/pages/main/main.html')">Отменить</button>
+            <a href="/frontend/pages/main/main.html">Отменить</a>
+            <span x-show="!!error" x-text="error" class="error"></span-->
+        </div>
     </div>
+    
     
     <script type="text/babel" src="./addProduct.jsx">
         /*

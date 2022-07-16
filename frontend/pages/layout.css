@@ -1,4 +1,4 @@
-#root {
+.main {
     background-color: #0f1263;
     background-color: #264653;
     user-select: none;
@@ -8,6 +8,7 @@
     font-size: 20px;
     margin: 0px;
     font-family:  Helvetica, sans-serif;
+    height: 100vh;
 }
 
 .ksyu {
@@ -163,7 +164,10 @@ select:hover {
     cursor: pointer;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1500px) {
+    .main {
+        height: max-content;
+    }
     #root {
         height: auto;
     }
