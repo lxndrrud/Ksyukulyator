@@ -3,7 +3,6 @@ package window_controllers
 import (
 	"database/sql"
 	"fmt"
-	"net/http/httptest"
 
 	"github.com/jchv/go-webview-selector"
 	"github.com/jmoiron/sqlx"
@@ -25,7 +24,7 @@ type WindowController struct {
 	productStorage  *storage.ProductModel
 	categoryStorage *storage.CategoryModel
 	calcController  *controllers.CalculationController
-	server          *httptest.Server
+	//server          *httptest.Server
 }
 
 func (c *WindowController) LoadBindings() {
@@ -41,13 +40,13 @@ func (c *WindowController) LoadBindings() {
 	c.Window.Bind("filterByCategory", c.productStorage.GetByCategoryId)
 }
 
-func (c *WindowController) SetupWindow(srv *httptest.Server) {
-	c.server = srv
-	url := fmt.Sprintf("%s/pages/main/main.html", srv.URL)
+func (c *WindowController) SetupWindow() {
+	//c.server = srv
+	url := "http://localhost:8083/pages/main/main.html"
 	c.Window = webview.New(false)
 	defer c.Window.Destroy()
 
-	c.Window.SetTitle("Ксюкулятор " + srv.URL)
+	c.Window.SetTitle("Ксюкулятор ")
 	c.Window.SetSize(1200, 800, webview.HintNone)
 	c.LoadBindings()
 	c.Window.Navigate(url)
