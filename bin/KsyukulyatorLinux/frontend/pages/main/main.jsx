@@ -11,6 +11,7 @@ const MainPage = () => {
 
     React.useEffect(async () => {
         await parseProducts()
+        await parseProductsAmounts()
     }, [])
 
     async function parseProducts() {
@@ -31,24 +32,6 @@ const MainPage = () => {
         } catch(e) {
             setError(e)
         }
-        /*
-        let productsAmounts = await getAmounts()
-        let table = $("#amountsTable").find("tbody")
-        table.empty()
-        $("#sum").text(productsAmounts.sum)
-        for (let amount of productsAmounts.products) {
-            table.append(`
-            <tr>
-                <td>${amount.product_title}</td>
-                <td>${amount.product_amount}</td>
-                <td>${amount.product_amount_cost}</td>
-                <td>
-                    <button @click="await removeFromCalc(${amount.product_id})" className="button">Убрать из расчёта</button>
-                </td>
-            </tr>
-            `)
-        }
-        */
     }
     async function calculate(idProduct) {
         try {

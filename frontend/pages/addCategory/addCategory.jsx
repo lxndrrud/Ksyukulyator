@@ -4,6 +4,10 @@ const AddCategoryPage = () => {
 
     async function saveCategory(event) {
         try {
+            if (!categoryTitle) {
+                setError("Ксю, ты не ввела название категории!") 
+                return
+            }
             let result = await addCategory(categoryTitle)
             if (result) window.location.href = "/pages/categories/categories.html"
         } catch(e) {

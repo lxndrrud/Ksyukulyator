@@ -46,7 +46,7 @@ func (c *WindowController) SetupWindow() {
 	c.Window = webview.New(false)
 	defer c.Window.Destroy()
 
-	c.Window.SetTitle("Ксюкулятор ")
+	c.Window.SetTitle("Ксюкулятор")
 	c.Window.SetSize(1200, 800, webview.HintNone)
 	c.LoadBindings()
 	c.Window.Navigate(url)

@@ -1,7 +1,7 @@
 const AddProductPage = () => {
     let [categories, setCategories] = React.useState(null)
-    let [title, setTitle] = React.useState('')
-    let [cost, setCost] = React.useState('')
+    let [title, setTitle] = React.useState("")
+    let [cost, setCost] = React.useState("")
     let [isLoading, setIsLoading] = React.useState(true)
     let [categoryId, setCategoryId] = React.useState(0)
     let [error, setError] = React.useState(null)
@@ -18,6 +18,14 @@ const AddProductPage = () => {
     }, [])
     async function saveProduct(event) {
         try {
+            if (!title) {
+                setError("Ксю, ты не ввела название продукта!")
+                return
+            }
+            if (!cost || parseFloat(cost) === 0 ) {
+                setError("Ксю, ты не ввела стоимость продукта!")
+                return
+            }
             let result = await addProduct(title, parseFloat(cost), parseInt(categoryId))
             if (result) window.location.href = "/pages/main/main.html"
         } catch (e) {
