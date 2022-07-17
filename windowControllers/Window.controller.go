@@ -47,7 +47,7 @@ func (c *WindowController) SetupWindow(srv *httptest.Server) {
 	c.Window = webview.New(false)
 	defer c.Window.Destroy()
 
-	c.Window.SetTitle("Ксюкулятор")
+	c.Window.SetTitle("Ксюкулятор " + srv.URL)
 	c.Window.SetSize(1200, 800, webview.HintNone)
 	c.LoadBindings()
 	c.Window.Navigate(url)
