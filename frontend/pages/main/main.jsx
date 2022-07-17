@@ -139,7 +139,7 @@ const MainPage = () => {
                                     <button onClick={async (e) => {await parseProducts()}} className="button">
                                             Обновить список
                                     </button>
-                                    <a href="/frontend/pages/addProduct/addProduct.html/" className="button">
+                                    <a href="/pages/addProduct/addProduct.html/" className="button">
                                         Добавить продукт
                                     </a>
                                     <select id="productCategory" onChange={async () => { await filterProductsByCategory() }}>

@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"net/http/httptest"
+	"os"
 
 	"path/filepath"
 
@@ -15,20 +16,26 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+/*
 type pkgerServer struct{}
 
 func (p *pkgerServer) Open(name string) (http.File, error) {
 	return pkger.Open(name)
 }
+*/
 
 func httpServer() *httptest.Server {
 	return httptest.NewServer(
 		http.FileServer(
-			&pkgerServer{}))
+			pkger.Dir("/frontend")))
 }
 
 func main() {
-	_ = pkger.Include(filepath.FromSlash("/frontend"))
+	exec, err := os.Executable()
+	if err != nil {
+		return
+	}
+	_ = pkger.Include(filepath.Dir(exec) + filepath.FromSlash("/frontend"))
 	srv := httpServer()
 	defer srv.Close()
 	db, err := sqlx.Open("sqlite3", "./app.db")

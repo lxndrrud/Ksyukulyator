@@ -5,7 +5,7 @@ const AddCategoryPage = () => {
     async function saveCategory(event) {
         try {
             let result = await addCategory(categoryTitle)
-            if (result) window.location.href = "/frontend/pages/categories/categories.html"
+            if (result) window.location.href = "/pages/categories/categories.html"
         } catch(e) {
             setError(e)
         }
@@ -27,7 +27,7 @@ const AddCategoryPage = () => {
                 </div>
                 
                 <button onClick={saveCategory} className="button">Сохранить</button>
-                <a href="/frontend/pages/categories/categories.html" className="button">Отменить</a>
+                <a href="/pages/categories/categories.html" className="button">Отменить</a>
             </div>
         </div>
     )

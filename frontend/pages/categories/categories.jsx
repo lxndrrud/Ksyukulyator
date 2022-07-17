@@ -4,7 +4,7 @@ const CategoriesPage = () => {
     let [isLoading, setIsLoading] = React.useState(true)
     async function delCategory(idCategory) {
         try {
-            let result = await deleteCategory(parseInt(e.target.getAttribute('categoryid')))
+            let result = await deleteCategory(idCategory)
             if (result) setCategories(await loadCategories())
         } catch (e) {
             setError(e)
@@ -58,7 +58,7 @@ const CategoriesPage = () => {
                                 </tbody>
                             </table>
                         </div>
-                        <a href="/frontend/pages/addCategory/addCategory.html" className="button">
+                        <a href="/pages/addCategory/addCategory.html" className="button">
                             Добавить категорию
                         </a>
                     </div>

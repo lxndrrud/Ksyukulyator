@@ -43,7 +43,7 @@ func (c *WindowController) LoadBindings() {
 
 func (c *WindowController) SetupWindow(srv *httptest.Server) {
 	c.server = srv
-	url := fmt.Sprintf("%s/frontend/pages/main/main.html", srv.URL)
+	url := fmt.Sprintf("%s/pages/main/main.html", srv.URL)
 	c.Window = webview.New(false)
 	defer c.Window.Destroy()
 

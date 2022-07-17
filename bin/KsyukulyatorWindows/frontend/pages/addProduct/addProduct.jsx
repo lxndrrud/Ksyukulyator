@@ -19,7 +19,7 @@ const AddProductPage = () => {
     async function saveProduct(event) {
         try {
             let result = await addProduct(title, parseFloat(cost), parseInt(categoryId))
-            if (result) window.location.href = "/frontend/pages/main/main.html"
+            if (result) window.location.href = "/pages/main/main.html"
         } catch (e) {
             setError(e)
         }
@@ -69,7 +69,7 @@ const AddProductPage = () => {
                         </select>
                         <button onClick={async() => { await saveProduct() }} className="button">Сохранить</button>
                         
-                        <a href="/frontend/pages/main/main.html" className="button">Отменить</a>
+                        <a href="/pages/main/main.html" className="button">Отменить</a>
                     </div>
                     
                 </div>
